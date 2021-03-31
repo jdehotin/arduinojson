@@ -24,26 +24,26 @@ namespace ARDUINOJSON_NAMESPACE {
 template <typename TOut, typename TIn>
 typename enable_if<is_integral<TOut>::value && sizeof(TOut) <= sizeof(TIn),
                    bool>::type
-canStorePositiveInteger(TIn value) {
+canStoreUnsignedInteger(TIn value) {
   return value <= TIn(numeric_limits<TOut>::highest());
 }
 
 template <typename TOut, typename TIn>
 typename enable_if<is_integral<TOut>::value && sizeof(TIn) < sizeof(TOut),
                    bool>::type
-canStorePositiveInteger(TIn) {
+canStoreUnsignedInteger(TIn) {
   return true;
 }
 
 template <typename TOut, typename TIn>
 typename enable_if<is_floating_point<TOut>::value, bool>::type
-canStorePositiveInteger(TIn) {
+canStoreUnsignedInteger(TIn) {
   return true;
 }
 
 template <typename TOut, typename TIn>
 typename enable_if<is_floating_point<TOut>::value, bool>::type
-canStoreNegativeInteger(TIn) {
+canStoreSignedInteger(TIn) {
   return true;
 }
 
@@ -51,33 +51,36 @@ template <typename TOut, typename TIn>
 typename enable_if<is_integral<TOut>::value && is_signed<TOut>::value &&
                        sizeof(TOut) <= sizeof(TIn),
                    bool>::type
-canStoreNegativeInteger(TIn value) {
-  return value <= TIn(numeric_limits<TOut>::highest()) + 1;
+canStoreSignedInteger(TIn value) {
+  return value >= TIn(numeric_limits<TOut>::lowest()) &&
+         value <= TIn(numeric_limits<TOut>::highest());
 }
 
 template <typename TOut, typename TIn>
 typename enable_if<is_integral<TOut>::value && is_signed<TOut>::value &&
                        sizeof(TIn) < sizeof(TOut),
                    bool>::type
-canStoreNegativeInteger(TIn) {
+canStoreSignedInteger(TIn) {
   return true;
 }
 
 template <typename TOut, typename TIn>
 typename enable_if<is_integral<TOut>::value && is_unsigned<TOut>::value,
                    bool>::type
-canStoreNegativeInteger(TIn) {
-  return false;
+canStoreSignedInteger(TIn value) {
+  if (value < 0)
+    return false;
+  return value <= TIn(numeric_limits<TOut>::highest());
 }
 
 template <typename TOut, typename TIn>
-TOut convertPositiveInteger(TIn value) {
-  return canStorePositiveInteger<TOut>(value) ? TOut(value) : 0;
+TOut convertUnsignedInteger(TIn value) {
+  return canStoreUnsignedInteger<TOut>(value) ? TOut(value) : 0;
 }
 
 template <typename TOut, typename TIn>
-TOut convertNegativeInteger(TIn value) {
-  return canStoreNegativeInteger<TOut>(value) ? TOut(~value + 1) : 0;
+TOut convertSignedInteger(TIn value) {
+  return canStoreSignedInteger<TOut>(value) ? TOut(value) : 0;
 }
 
 template <typename TOut, typename TIn>

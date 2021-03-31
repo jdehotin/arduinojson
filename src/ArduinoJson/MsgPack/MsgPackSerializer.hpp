@@ -101,7 +101,7 @@ class MsgPackSerializer : public Visitor<size_t> {
     return bytesWritten();
   }
 
-  size_t visitNegativeInteger(UInt value) {
+  size_t visitSignedInteger(UInt value) {
     UInt negated = UInt(~value + 1);
     if (value <= 0x20) {
       writeInteger(int8_t(negated));
@@ -124,7 +124,7 @@ class MsgPackSerializer : public Visitor<size_t> {
     return bytesWritten();
   }
 
-  size_t visitPositiveInteger(UInt value) {
+  size_t visitUnsignedInteger(UInt value) {
     if (value <= 0x7F) {
       writeInteger(uint8_t(value));
     } else if (value <= 0xFF) {

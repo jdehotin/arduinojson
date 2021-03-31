@@ -12,7 +12,7 @@ template <typename T>
 void checkInteger(const char* input, T expected) {
   CAPTURE(input);
   T actual = parseNumber<T>(input);
-  REQUIRE(expected == actual);
+  CHECK(expected == actual);
 }
 
 TEST_CASE("parseNumber<int8_t>()") {

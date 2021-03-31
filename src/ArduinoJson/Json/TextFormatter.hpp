@@ -90,13 +90,22 @@ class TextFormatter {
     }
   }
 
-  void writeNegativeInteger(UInt value) {
-    writeRaw('-');
-    writePositiveInteger(value);
+  template <typename T>
+  typename enable_if<is_signed<T>::value>::type writeInteger(T value) {
+    typedef typename make_unsigned<T>::type unsigned_type;
+    unsigned_type unsigned_value;
+    if (value < 0) {
+      writeRaw('-');
+      // TODO: check -128
+      unsigned_value = static_cast<unsigned_type>(-value);
+    } else {
+      unsigned_value = static_cast<unsigned_type>(value);
+    }
+    writeInteger(unsigned_value);
   }
 
   template <typename T>
-  void writePositiveInteger(T value) {
+  typename enable_if<is_unsigned<T>::value>::type writeInteger(T value) {
     char buffer[22];
     char *end = buffer + sizeof(buffer);
     char *begin = end;

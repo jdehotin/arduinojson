@@ -23,7 +23,7 @@ TEST_CASE("Test unsigned integer overflow") {
     parseNumber("4294967296", second);
   }
 
-  REQUIRE(first.type() == uint8_t(VALUE_IS_POSITIVE_INTEGER));
+  REQUIRE(first.type() == uint8_t(VALUE_IS_UNSIGNED_INTEGER));
   REQUIRE(second.type() == uint8_t(VALUE_IS_FLOAT));
 }
 

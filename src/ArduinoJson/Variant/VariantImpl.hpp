@@ -18,11 +18,11 @@ namespace ARDUINOJSON_NAMESPACE {
 template <typename T>
 inline T VariantData::asIntegral() const {
   switch (type()) {
-    case VALUE_IS_POSITIVE_INTEGER:
+    case VALUE_IS_UNSIGNED_INTEGER:
     case VALUE_IS_BOOLEAN:
-      return convertPositiveInteger<T>(_content.asInteger);
-    case VALUE_IS_NEGATIVE_INTEGER:
-      return convertNegativeInteger<T>(_content.asInteger);
+      return convertUnsignedInteger<T>(_content.asUnsignedInteger);
+    case VALUE_IS_SIGNED_INTEGER:
+      return convertSignedInteger<T>(_content.asSignedInteger);
     case VALUE_IS_LINKED_STRING:
     case VALUE_IS_OWNED_STRING:
       return parseNumber<T>(_content.asString);
@@ -35,10 +35,10 @@ inline T VariantData::asIntegral() const {
 
 inline bool VariantData::asBoolean() const {
   switch (type()) {
-    case VALUE_IS_POSITIVE_INTEGER:
     case VALUE_IS_BOOLEAN:
-    case VALUE_IS_NEGATIVE_INTEGER:
-      return _content.asInteger != 0;
+    case VALUE_IS_SIGNED_INTEGER:
+    case VALUE_IS_UNSIGNED_INTEGER:
+      return _content.asUnsignedInteger != 0;
     case VALUE_IS_FLOAT:
       return _content.asFloat != 0;
     case VALUE_IS_NULL:
@@ -52,11 +52,11 @@ inline bool VariantData::asBoolean() const {
 template <typename T>
 inline T VariantData::asFloat() const {
   switch (type()) {
-    case VALUE_IS_POSITIVE_INTEGER:
+    case VALUE_IS_UNSIGNED_INTEGER:
     case VALUE_IS_BOOLEAN:
-      return static_cast<T>(_content.asInteger);
-    case VALUE_IS_NEGATIVE_INTEGER:
-      return -static_cast<T>(_content.asInteger);
+      return static_cast<T>(_content.asUnsignedInteger);
+    case VALUE_IS_SIGNED_INTEGER:
+      return -static_cast<T>(_content.asSignedInteger);
     case VALUE_IS_LINKED_STRING:
     case VALUE_IS_OWNED_STRING:
       return parseNumber<T>(_content.asString);

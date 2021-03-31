@@ -70,9 +70,9 @@ inline bool parseNumber(const char* s, VariantData& result) {
 
   if (*s == '\0') {
     if (is_negative)
-      result.setNegativeInteger(UInt(mantissa));
+      result.setSignedInteger(Integer(-mantissa));
     else
-      result.setPositiveInteger(UInt(mantissa));
+      result.setUnsignedInteger(UInt(mantissa));
     return true;
   }
 
