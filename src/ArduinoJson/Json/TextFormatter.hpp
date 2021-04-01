@@ -75,18 +75,13 @@ class TextFormatter {
 
     FloatParts<T> parts(value);
 
-    writePositiveInteger(parts.integral);
+    writeInteger(parts.integral);
     if (parts.decimalPlaces)
       writeDecimals(parts.decimal, parts.decimalPlaces);
 
-    if (parts.exponent < 0) {
-      writeRaw("e-");
-      writePositiveInteger(-parts.exponent);
-    }
-
     if (parts.exponent > 0) {
       writeRaw('e');
-      writePositiveInteger(parts.exponent);
+      writeInteger(parts.exponent);
     }
   }
 
