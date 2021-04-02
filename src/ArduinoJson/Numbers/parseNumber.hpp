@@ -69,11 +69,16 @@ inline bool parseNumber(const char* s, VariantData& result) {
   }
 
   if (*s == '\0') {
-    if (is_negative)
-      result.setSignedInteger(Integer(~mantissa + 1));
-    else
+    if (is_negative) {
+      const mantissa_t sintMantissaMax = 1U << (sizeof(Integer) * 8 - 1);
+      if (mantissa <= sintMantissaMax) {
+        result.setSignedInteger(Integer(~mantissa + 1));
+        return true;
+      }
+    } else {
       result.setUnsignedInteger(UInt(mantissa));
-    return true;
+      return true;
+    }
   }
 
   // avoid mantissa overflow
