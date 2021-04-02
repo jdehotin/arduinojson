@@ -36,6 +36,7 @@ inline T VariantData::asIntegral() const {
 inline bool VariantData::asBoolean() const {
   switch (type()) {
     case VALUE_IS_BOOLEAN:
+      return _content.asBoolean;
     case VALUE_IS_SIGNED_INTEGER:
     case VALUE_IS_UNSIGNED_INTEGER:
       return _content.asUnsignedInteger != 0;
