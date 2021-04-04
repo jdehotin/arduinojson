@@ -57,7 +57,7 @@ inline T VariantData::asFloat() const {
     case VALUE_IS_BOOLEAN:
       return static_cast<T>(_content.asUnsignedInteger);
     case VALUE_IS_SIGNED_INTEGER:
-      return -static_cast<T>(_content.asSignedInteger);
+      return static_cast<T>(_content.asSignedInteger);
     case VALUE_IS_LINKED_STRING:
     case VALUE_IS_OWNED_STRING:
       return parseNumber<T>(_content.asString);
