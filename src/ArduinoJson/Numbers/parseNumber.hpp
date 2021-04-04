@@ -70,7 +70,8 @@ inline bool parseNumber(const char* s, VariantData& result) {
 
   if (*s == '\0') {
     if (is_negative) {
-      const mantissa_t sintMantissaMax = 1U << (sizeof(Integer) * 8 - 1);
+      const mantissa_t sintMantissaMax = mantissa_t(1)
+                                         << (sizeof(Integer) * 8 - 1);
       if (mantissa <= sintMantissaMax) {
         result.setSignedInteger(Integer(~mantissa + 1));
         return true;

@@ -12,6 +12,7 @@
 #include <ArduinoJson/Numbers/Integer.hpp>
 #include <ArduinoJson/Polyfills/assert.hpp>
 #include <ArduinoJson/Polyfills/attributes.hpp>
+#include <ArduinoJson/Polyfills/type_traits.hpp>
 #include <ArduinoJson/Serialization/CountingDecorator.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
@@ -79,7 +80,7 @@ class TextFormatter {
     if (parts.decimalPlaces)
       writeDecimals(parts.decimal, parts.decimalPlaces);
 
-    if (parts.exponent > 0) {
+    if (parts.exponent) {
       writeRaw('e');
       writeInteger(parts.exponent);
     }
